@@ -1,4 +1,4 @@
-﻿{
+{
   "bitwarden": {
     "message": "Bitwarden"
   },
@@ -299,5 +299,554 @@
   },
   "unknown": {
     "message": "Unknown"
+  },
+  "bwadminEnabled": {
+    "message": "Enabled"
+  },
+  "bwadminId": {
+    "message": "Id"
+  },
+  "bwadminName": {
+    "message": "Name"
+  },
+  "bwadminRole": {
+    "message": "Role"
+  },
+  "bwadminStatus": {
+    "message": "Status"
+  },
+  "bwadminExternalid": {
+    "message": "ExternalId"
+  },
+  "bwadminError": {
+    "message": "Error"
+  },
+  "bwadminResult": {
+    "message": "Result"
+  },
+  "bwadminIp": {
+    "message": "Ip"
+  },
+  "bwadminActinguser": {
+    "message": "ActingUser"
+  },
+  "bwadminDate": {
+    "message": "Date"
+  },
+  "bwadminType": {
+    "message": "Type"
+  },
+  "bwadminCollectionNotFound": {
+    "message": "Collection not found."
+  },
+  "bwadminData": {
+    "message": "Data"
+  },
+  "bwadminOrganizationidOptionIsRequired": {
+    "message": "`organizationid` option is required."
+  },
+  "bwadminValue": {
+    "message": "Value"
+  },
+  "bwadminSetting": {
+    "message": "Setting"
+  },
+  "bwadminOrgidOptionIsRequired": {
+    "message": "`orgid` option is required."
+  },
+  "bwadminContinuationTokenForTheNextPage": {
+    "message": "Continuation token for the next page."
+  },
+  "bwadminEndDateEG20261130": {
+    "message": "End date (e.g. 2026-11-30)."
+  },
+  "bwadminStartDateEG20261101": {
+    "message": "Start date (e.g. 2026-11-01)."
+  },
+  "bwadminOrganizationIdRequiredForMember": {
+    "message": "Organization id (required for `member`)."
+  },
+  "bwadminInvalidJsonInDataOption": {
+    "message": "Invalid JSON in `data` option."
+  },
+  "bwadminUnknownPolicyType": {
+    "message": "Unknown policy type."
+  },
+  "bwadminEnableAndDisableAreMutuallyExclusive": {
+    "message": "`enable` and `disable` are mutually exclusive."
+  },
+  "bwadminTypeMustBeANumericPolicyType": {
+    "message": "`type` must be a numeric policy type."
+  },
+  "bwadminPolicyConfigurationJsonMergedOverTheExistingData": {
+    "message": "Policy configuration JSON, merged over the existing data."
+  },
+  "bwadminDisableThePolicy": {
+    "message": "Disable the policy."
+  },
+  "bwadminEnableThePolicy": {
+    "message": "Enable the policy."
+  },
+  "bwadminOrganizationId": {
+    "message": "Organization id."
+  },
+  "bwadminShowOrUpdateASingleOrganizationPolicy": {
+    "message": "Show or update a single organization policy."
+  },
+  "bwadminNothingToUpdateProvideNameAndOrBillingEmail": {
+    "message": "Nothing to update. Provide --name and/or --billing-email."
+  },
+  "bwadminUnknownUpdateObject": {
+    "message": "Unknown update object: "
+  },
+  "bwadminNewBillingEmail": {
+    "message": "New billing email."
+  },
+  "bwadminNewOrganizationName": {
+    "message": "New organization name."
+  },
+  "bwadminUpdateOrganizationSettingsOrgSettings": {
+    "message": "Update organization settings (`org-settings`)."
+  },
+  "bwadminUnknownGetObject": {
+    "message": "Unknown get object: "
+  },
+  "bwadminGroupId": {
+    "message": "Group id."
+  },
+  "bwadminViewOrSetTheMembersOfAnOrganizationGroup": {
+    "message": "View or set the members of an organization group."
+  },
+  "bwadminGroupIdS": {
+    "message": "Group id(s)."
+  },
+  "bwadminDeleteOneOrMoreOrganizationGroups": {
+    "message": "Delete one or more organization groups."
+  },
+  "bwadminNewGroupName": {
+    "message": "New group name."
+  },
+  "bwadminRenameAnOrganizationGroup": {
+    "message": "Rename an organization group."
+  },
+  "bwadminExternalGroupId": {
+    "message": "External group id."
+  },
+  "bwadminGroupName": {
+    "message": "Group name."
+  },
+  "bwadminCreateAnOrganizationGroup": {
+    "message": "Create an organization group."
+  },
+  "bwadminCollectionIds": {
+    "message": "Collection ids."
+  },
+  "bwadminDeleteMultipleOrganizationCollections": {
+    "message": "Delete multiple organization collections."
+  },
+  "bwadminDeletedCollection": {
+    "message": "Deleted collection."
+  },
+  "bwadminDeleteAnOrganizationCollection": {
+    "message": "Delete an organization collection."
+  },
+  "bwadminCanManageTheCollection": {
+    "message": "Can manage the collection."
+  },
+  "bwadminHidePasswords": {
+    "message": "Hide passwords."
+  },
+  "bwadminReadOnlyAccess": {
+    "message": "Read-only access."
+  },
+  "bwadminMemberIdsToAssign": {
+    "message": "Member ids to assign."
+  },
+  "bwadminGroupIdsToAssign": {
+    "message": "Group ids to assign."
+  },
+  "bwadminAssignAccessToMultipleCollectionsAtOnce": {
+    "message": "Assign access to multiple collections at once."
+  },
+  "bwadminUpdatedCollectionAccess": {
+    "message": "Updated collection access."
+  },
+  "bwadminUsers": {
+    "message": "Users:"
+  },
+  "bwadminGroups": {
+    "message": "Groups:"
+  },
+  "bwadminManage": {
+    "message": "Manage"
+  },
+  "bwadminHidepasswords": {
+    "message": "HidePasswords"
+  },
+  "bwadminReadonly": {
+    "message": "ReadOnly"
+  },
+  "bwadminShowCollectionDetailsIncludingGroupAndUserAccess": {
+    "message": "Show collection details including group and user access."
+  },
+  "bwadminUpdatedCollection": {
+    "message": "Updated collection "
+  },
+  "bwadminNewCollectionName": {
+    "message": "New collection name."
+  },
+  "bwadminRenameAnOrganizationCollection": {
+    "message": "Rename an organization collection."
+  },
+  "bwadminCreateAnOrganizationCollection": {
+    "message": "Create an organization collection."
+  },
+  "bwadminManageOrganizationCollections": {
+    "message": "Manage organization collections."
+  },
+  "bwadminRevokeAccessInsteadOfAssigningIt": {
+    "message": "Revoke access instead of assigning it."
+  },
+  "bwadminIdsMustContainAtLeastOneMemberId": {
+    "message": "`ids` must contain at least one member id."
+  },
+  "bwadminCommaSeparatedEmailsInviteOnly": {
+    "message": "Comma-separated emails (invite only)."
+  },
+  "bwadminSearchTermsForOrganizations": {
+    "message": "Search terms for organizations."
+  },
+  "bwadminOneTimePasswordVerified": {
+    "message": "One-time password verified."
+  },
+  "bwadminVerifyAOneTimePasswordCode": {
+    "message": "Verify a one-time password code."
+  },
+  "bwadminOneTimePasswordSentCheckYourEmail": {
+    "message": "One-time password sent. Check your email."
+  },
+  "bwadminRequestAOneTimePasswordEmail": {
+    "message": "Request a one-time password email."
+  },
+  "bwadminRequestOrVerifyAOneTimePasswordOtpSentToTheAccountEmail": {
+    "message": "Request or verify a one-time password (OTP) sent to the account email."
+  },
+  "bwadminDomainRulesUpdated": {
+    "message": "Domain rules updated."
+  },
+  "bwadminCommaSeparatedGlobalEquivalentDomainIdsToExclude": {
+    "message": "Comma-separated global equivalent domain IDs to exclude."
+  },
+  "bwadminShowEquivalentDomainRulesOrUpdateThemViaEquivalentExcluded": {
+    "message": "Show equivalent-domain rules, or update them via --equivalent/--excluded."
+  },
+  "bwadminKdfSettingsUpdated": {
+    "message": "KDF settings updated."
+  },
+  "bwadminTheMasterPasswordIsRequiredToUpdateKdfSettings": {
+    "message": "The master password is required to update KDF settings."
+  },
+  "bwadminArgon2idParallelism": {
+    "message": "Argon2id parallelism."
+  },
+  "bwadminArgon2idMemoryInMib": {
+    "message": "Argon2id memory in MiB."
+  },
+  "bwadminPbkdf2OrArgon2idIterations": {
+    "message": "PBKDF2 or Argon2id iterations."
+  },
+  "bwadminKdfType0Pbkdf2Sha2561Argon2id": {
+    "message": "KDF type: 0 = PBKDF2 SHA256, 1 = Argon2id."
+  },
+  "bwadminShowKdfSettingsOrUpdateThemPassTheMasterPasswordAndType": {
+    "message": "Show KDF settings, or update them (pass the master password and --type)."
+  },
+  "bwadminMasterPasswordChanged": {
+    "message": "Master password changed."
+  },
+  "bwadminCurrentAndNewPasswordsAreRequired": {
+    "message": "Current and new passwords are required."
+  },
+  "bwadminMasterPasswordHint": {
+    "message": "Master password hint."
+  },
+  "bwadminChangeTheMasterPasswordAndReEncryptTheVault": {
+    "message": "Change the master password and re-encrypt the vault."
+  },
+  "bwadminProvidesACustomEventsUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom events URL that differs from the base URL."
+  },
+  "bwadminProvidesACustomIdentityUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom identity URL that differs from the base URL."
+  },
+  "bwadminProvidesACustomApiUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom API URL that differs from the base URL."
+  },
+  "bwadminConfigureCliSettings": {
+    "message": "Configure CLI settings."
+  },
+  "bwadminGetTheLastSyncDate": {
+    "message": "Get the last sync date."
+  },
+  "bwadminForceAFullSync": {
+    "message": "Force a full sync."
+  },
+  "bwadminPullTheLatestVaultDataFromServer": {
+    "message": "Pull the latest vault data from server."
+  },
+  "bwadminEnvironmentVariableStoringYourPassword": {
+    "message": "Environment variable storing your password"
+  },
+  "bwadminUnlockTheVaultAndReturnANewSessionKey": {
+    "message": "Unlock the vault and return a new session key."
+  },
+  "bwadminLockTheVaultAndDestroyActiveSessionKeys": {
+    "message": "Lock the vault and destroy active session keys."
+  },
+  "bwadminLogOutOfTheCurrentUserAccount": {
+    "message": "Log out of the current user account."
+  },
+  "bwadminTwoStepLoginCode": {
+    "message": "Two-step login code."
+  },
+  "bwadminTwoStepLoginMethod": {
+    "message": "Two-step login method."
+  },
+  "bwadminLogIntoAUserAccount": {
+    "message": "Log into a user account."
+  },
+  "bwadminSeeHelpForAListOfAvailableCommands": {
+    "message": "See --help for a list of available commands."
+  },
+  "bwadminPassSessionKeyInsteadOfReadingFromEnv": {
+    "message": "Pass session key instead of reading from env."
+  },
+  "bwadminDoNotPromptForInteractiveUserInput": {
+    "message": "Do not prompt for interactive user input."
+  },
+  "bwadminDonTReturnAnythingToStdout": {
+    "message": "Don't return anything to stdout."
+  },
+  "bwadminExitWithASuccessExitCode0UnlessAnErrorIsThrown": {
+    "message": "Exit with a success exit code (0) unless an error is thrown."
+  },
+  "bwadminReturnAJsonFormattedVersionOfResponseOutput": {
+    "message": "Return a JSON formatted version of response output."
+  },
+  "bwadminReturnJsonOutput": {
+    "message": "Return JSON output."
+  },
+  "bwadminReturnRawOutputInsteadOfADescriptiveMessage": {
+    "message": "Return raw output instead of a descriptive message."
+  },
+  "bwadminFormatOutputJsonIsTabbedWithTwoSpaces": {
+    "message": "Format output. JSON is tabbed with two spaces."
+  },
+  "bwadminCliForWebExclusiveVaultAdministrationOnSelfHostedServers": {
+    "message": "CLI for web-exclusive vault administration on self-hosted servers."
+  },
+  "bwadminThisCannotBeUndoneAreYouSure": {
+    "message": "This cannot be undone. Are you sure?"
+  },
+  "bwadminAllTwoStepLoginProvidersHaveBeenDisabledLogInAgainToReEnroll2fa": {
+    "message": "All two-step login providers have been disabled. Log in again to re-enroll 2FA."
+  },
+  "bwadminCancelled": {
+    "message": "Cancelled."
+  },
+  "bwadminEmailTwoStepLoginDisabled": {
+    "message": "Email two-step login disabled."
+  },
+  "bwadminDisableTheEmailTwoStepLoginProvider": {
+    "message": "Disable the email two-step login provider."
+  },
+  "bwadminEmailTwoStepLoginEnabled": {
+    "message": "Email two-step login enabled."
+  },
+  "bwadminConfirmEmailTwoStepLoginEnrollmentWithTheEmailedVerificationCode": {
+    "message": "Confirm email two-step login enrollment with the emailed verification code."
+  },
+  "bwadminEnterTheCodeWithTwofactorEmailEnableCode": {
+    "message": "Enter the code with `twofactor email-enable <code>`."
+  },
+  "bwadminVerificationCodeSentTo": {
+    "message": "Verification code sent to "
+  },
+  "bwadminSendTheEmailTwoStepLoginVerificationCodeToTheAccountEmailAddress": {
+    "message": "Send the email two-step login verification code to the account email address."
+  },
+  "bwadminAuthenticatorTwoStepLoginDisabled": {
+    "message": "Authenticator two-step login disabled."
+  },
+  "bwadminDisableTheAuthenticatorTotpTwoStepLoginProvider": {
+    "message": "Disable the authenticator (TOTP) two-step login provider."
+  },
+  "bwadminAuthenticatorTwoStepLoginEnabled": {
+    "message": "Authenticator two-step login enabled."
+  },
+  "bwadminConfirmAuthenticatorTotpEnrollmentWithAVerificationCode": {
+    "message": "Confirm authenticator (TOTP) enrollment with a verification code."
+  },
+  "bwadminEnterTheGeneratedCodeWithTwofactorTotpEnableCode": {
+    "message": "Enter the generated code with `twofactor totp-enable <code>`."
+  },
+  "bwadminAuthenticatorSecret": {
+    "message": "Authenticator secret: "
+  },
+  "bwadminStartAuthenticatorTotpEnrollmentAndDisplayTheSecretAndOtpauthUri": {
+    "message": "Start authenticator (TOTP) enrollment and display the secret and otpauth URI."
+  },
+  "bwadminEnabledTwoStepLoginProviders": {
+    "message": "Enabled two-step login providers:"
+  },
+  "bwadminNoTwoStepLoginProvidersEnabled": {
+    "message": "No two-step login providers enabled."
+  },
+  "bwadminListTheEnabledTwoStepLoginProvidersForTheCurrentUser": {
+    "message": "List the enabled two-step login providers for the current user."
+  },
+  "bwadminManageTwoStepLoginProviders": {
+    "message": "Manage two-step login providers."
+  },
+  "bwadminEnvironmentVariableStoringYourMasterPassword": {
+    "message": "Environment variable storing your master password"
+  },
+  "bwadminTrustTheseMembershipsAndContinueTheKeyRotation": {
+    "message": "Trust these memberships and continue the key rotation?"
+  },
+  "bwadminOk": {
+    "message": "Ok"
+  },
+  "bwadminFailed": {
+    "message": "Failed"
+  },
+  "bwadminListEventLogsForAnOrganizationOrgAnOrganizationMemberMemberOrACipherCipher": {
+    "message": "List event logs for an organization (`org`), an organization member (`member`) or a cipher (`cipher`)."
+  },
+  "bwadminApiKeyTypeFilterOrgApiKeyInfoOnly0Default1Billingsync2Scim": {
+    "message": "API key type filter (`org-api-key-info` only): 0=Default, 1=BillingSync, 2=Scim."
+  },
+  "bwadminGetOrganizationDetailsOrgSettingsOrgPublicKeyOrgApiKeyInfo": {
+    "message": "Get organization details (`org-settings`, `org-public-key`, `org-api-key-info`)."
+  },
+  "bwadminOrganizationUserIdSToAssignOmitToViewCurrentMembers": {
+    "message": "Organization user id(s) to assign. Omit to view current members."
+  },
+  "bwadminAssignOrRevokeAGroupSAccessToACollection": {
+    "message": "Assign or revoke a group's access to a collection."
+  },
+  "bwadminAssignOrRevokeAMemberSAccessToACollection": {
+    "message": "Assign or revoke a member's access to a collection."
+  },
+  "bwadminMember": {
+    "message": "Member"
+  },
+  "bwadminGroup": {
+    "message": "Group"
+  },
+  "bwadminInviteMembersByEmailToAnOrganization": {
+    "message": "Invite members by email to an organization."
+  },
+  "bwadminOrganizationIdRequiredForMembersGroupsCollectionsAndPolicies": {
+    "message": "Organization id (required for `members`, `groups`, `collections` and `policies`)."
+  },
+  "bwadminListOrganizationsOrgsOrganizationMembersMembersGroupsGroupsCollectionsCollectionsOrPoliciesPolicies": {
+    "message": "List organizations (`orgs`), organization members (`members`), groups (`groups`), collections (`collections`) or policies (`policies`)."
+  },
+  "bwadminSemicolonSeparatedGroupsOfCommaSeparatedEquivalentDomains": {
+    "message": "Semicolon-separated groups of comma-separated equivalent domains."
+  },
+  "bwadminKeyRotationWasAborted": {
+    "message": "Key rotation was aborted."
+  },
+  "bwadminProvidesACustomNotificationsUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom notifications URL that differs from the base URL."
+  },
+  "bwadminProvidesACustomIconsServiceUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom icons service URL that differs from the base URL."
+  },
+  "bwadminProvidesACustomWebVaultUrlThatDiffersFromTheBaseUrl": {
+    "message": "Provides a custom web vault URL that differs from the base URL."
+  },
+  "bwadminPathToAFileContainingYourPasswordAsItsFirstLine": {
+    "message": "Path to a file containing your password as its first line"
+  },
+  "bwadminToProtectYourVaultYouHaveBeenLoggedOut": {
+    "message": "To protect your vault, you have been logged out."
+  },
+  "bwadminYouCannotLockYourVaultBecauseYouAreUsingKeyConnector": {
+    "message": "You cannot lock your vault because you are using Key Connector. "
+  },
+  "bwadminInvalidCommand": {
+    "message": "Invalid command: "
+  },
+  "bwadminDisableAllTwoStepLoginProvidersFor": {
+    "message": "Disable ALL two-step login providers for "
+  },
+  "bwadminUseASingleUseRecoveryCodeToDisableAllTwoStepLoginProvidersForTheAccount": {
+    "message": "Use a single-use recovery code to disable ALL two-step login providers for the account."
+  },
+  "bwadminPathToAFileContainingYourMasterPasswordAsItsFirstLine": {
+    "message": "Path to a file containing your master password as its first line"
+  },
+  "bwadminUnknownError": {
+    "message": "Unknown error."
+  },
+  "bwadminPublicKeyNotFound": {
+    "message": "Public key not found."
+  },
+  "bwadminTheFollowingMembershipsCouldNotBeTrustedAutomaticallyVerifyTheir": {
+    "message": "The following memberships could not be trusted automatically. Verify their "
+  },
+  "bwadminContinuationToken1": {
+    "message": "Continuation token: $1$"
+  },
+  "bwadminUnknownEventsObject1": {
+    "message": "Unknown events object: $1$"
+  },
+  "bwadminMasterPasswordChangeFailed1": {
+    "message": "Master password change failed. $1$"
+  },
+  "bwadminUnknown1": {
+    "message": "Unknown ($1$)"
+  },
+  "bwadminUnknownRole1": {
+    "message": "Unknown role '$1$'."
+  },
+  "bwadminEmergencyAccess1": {
+    "message": "emergency access: $1$"
+  },
+  "bwadminOrganization1": {
+    "message": "organization: $1$"
+  },
+  "bwadminMemberSOfAnOrganization1": {
+    "message": "$1$ member(s) of an organization."
+  },
+  "bwadminOwnerAdminUserCustomInviteOnlyDefaultUser": {
+    "message": "owner/admin/user/custom (invite only, default user)."
+  },
+  "bwadminIsNotAGuid1": {
+    "message": "`$1$` is not a GUID."
+  },
+  "bwadminOtpauthUri": {
+    "message": "otpauth URI: "
+  },
+  "bwadminCreatedCollection1": {
+    "message": "Created collection $1$."
+  },
+  "bwadminUpdatedAccessFor1Collections": {
+    "message": "Updated access for $1$ collections."
+  },
+  "bwadminDeleted1Collections": {
+    "message": "Deleted $1$ collections."
+  },
+  "bwadminEnabledPolicy1": {
+    "message": "Enabled policy $1$."
+  },
+  "bwadminDisabledPolicy1": {
+    "message": "Disabled policy $1$."
+  },
+  "bwadminUpdatedPolicy1": {
+    "message": "Updated policy $1$."
   }
 }

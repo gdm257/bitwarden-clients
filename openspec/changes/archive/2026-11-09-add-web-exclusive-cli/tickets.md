@@ -1,0 +1,10 @@
+.scratch/web-exclusive-cli/issues/01-cli-skeleton.md
+.scratch/web-exclusive-cli/issues/02-orgs-members-read.md
+.scratch/web-exclusive-cli/issues/03-members-write.md
+.scratch/web-exclusive-cli/issues/04-groups.md
+.scratch/web-exclusive-cli/issues/05-collections.md
+.scratch/web-exclusive-cli/issues/06-policies.md
+.scratch/web-exclusive-cli/issues/07-org-settings.md
+.scratch/web-exclusive-cli/issues/08-event-logs.md
+.scratch/web-exclusive-cli/issues/09-two-factor.md
+.scratch/web-exclusive-cli/issues/10-account-security.md
