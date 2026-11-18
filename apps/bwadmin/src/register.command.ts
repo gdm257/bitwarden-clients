@@ -17,7 +17,10 @@ import { ErrorResponse } from "@bitwarden/common/models/response/error.response"
 import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { LogService } from "@bitwarden/common/platform/abstractions/log.service";
-import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legacy";
+import {
+  PasswordGenerationServiceAbstraction,
+  PasswordGeneratorOptions,
+} from "@bitwarden/generator-legacy";
 // eslint-disable-next-line no-restricted-imports
 import { DEFAULT_KDF_CONFIG, KdfConfig, LegacyCompatKeyService } from "@bitwarden/legacy-crypto";
 
@@ -31,7 +34,7 @@ export interface RegisterOptions {
   generate?: boolean;
 }
 
-const GENERATED_PASSWORD_OPTIONS = {
+const GENERATED_PASSWORD_OPTIONS: PasswordGeneratorOptions = {
   type: "password",
   length: 64,
   uppercase: true,

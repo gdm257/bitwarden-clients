@@ -1,0 +1,13 @@
+- openspec/specs/bwadmin/org-admin/spec.md — bwadmin 的领域契约（org 管理命令），本次 change 不改命令行为
+- openspec/specs/bwadmin/account-registration/spec.md — register/invite/confirm 流程契约
+- openspec/specs/bwadmin/account-security/spec.md
+- openspec/specs/bwadmin/event-logs/spec.md
+- apps/bwadmin/README.md — bwadmin 定位与 member onboarding 三步
+- apps/bwadmin/project.json — Nx build target（oss / oss-dev），本次新增工具链不动它
+- apps/bwadmin/webpack.config.js — 复用 apps/cli/webpack.base.js；本次改 bundle 输出名
+- apps/cli/package.json — bin/pkg/package:* scripts 模式，bwadmin 打包照抄
+- apps/cli/scripts/debug-start.js — 隔离 profile 调试脚本模式（.debug/cli-profile、NO_BUILD、BITWARDENCLI_APPDATA_DIR）
+- apps/cli/webpack.base.js — externals 指向仓库根 node_modules，决定 pkg 解析起点
+- .github/workflows/build-cli.yml — CLI 多平台打包 CI（@yao-pkg/pkg、artifacts）；签名/Chocolatey/snap 依赖 Bitwarden 证书，fork 不复用
+- package.json — devDependency @yao-pkg/pkg 6.5.1；workspace 转发脚本模式（debug:cli）
+- apps/bwadmin/ — 无 package.json（本次新建），无 CI（本次新建 workflow）

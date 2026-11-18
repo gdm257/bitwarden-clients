@@ -49,7 +49,10 @@
     "debug:desktop": "npm run debug:electron --workspace @bitwarden/desktop",
     "debug:desktop:automation": "cross-env USE_AUTOMATION_BIOMETRICS=true npm run debug:desktop",
     "debug:browser": "node apps/browser/scripts/dev-chrome.mjs --popup",
-    "debug:cli": "npm run debug:cli --workspace @bitwarden/cli --"
+    "debug:cli": "npm run debug:cli --workspace @bitwarden/cli --",
+    "build:bwadmin": "npm run build --workspace bwadmin",
+    "debug:bwadmin": "npm run debug --workspace bwadmin --",
+    "package:bwadmin:win": "npm run package:oss:win --workspace bwadmin"
   },
   "workspaces": [
     "apps/*",

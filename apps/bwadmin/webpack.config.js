@@ -8,7 +8,7 @@ module.exports = (webpackConfig, context) => {
   }
   const ENV = (process.env.ENV = process.env.NODE_ENV);
 
-  return buildConfig({
+  const config = buildConfig({
     configName: "OSS",
     entry: context.options.main || "apps/bwadmin/src/bwadmin.ts",
     tsConfig: "tsconfig.base.json",
@@ -20,4 +20,7 @@ module.exports = (webpackConfig, context) => {
     externalsModulesDir: "node_modules",
     watch: context.options.watch || false,
   });
+
+  config.output.filename = "bwadmin.js";
+  return config;
 };
