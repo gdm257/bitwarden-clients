@@ -1,0 +1,9 @@
+openspec/specs/bwadmin/org-admin/spec.md
+openspec/specs/bwadmin/account-security/spec.md
+apps/bwadmin/src/admin.program.ts
+apps/bwadmin/src/member-write.command.ts
+libs/auth/src/angular/registration/registration-start/registration-start.component.ts
+libs/auth/src/angular/registration/registration-finish/default-registration-finish.service.ts
+libs/auth/src/angular/registration/registration-finish/registration-finish.component.ts
+libs/common/src/auth/services/account-api.service.ts
+libs/common/src/auth/models/request/registration/register-send-verification-email.request.ts

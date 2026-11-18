@@ -46,6 +46,7 @@ import { UserKeyRotationService } from "@bitwarden/user-crypto-management";
 import { CliUserCryptoDialogService } from "./account-security/cli-user-crypto-dialog.service";
 import { GroupCommand } from "./commands/group.command";
 import { MemberWriteCommand, MemberWriteResult } from "./member-write.command";
+import { RegisterCommand } from "./register.command";
 import { TableColumn, writeTable } from "./table";
 import { registerTwoFactorCommands } from "./two-factor.program";
 
@@ -206,6 +207,38 @@ export class AdminProgram extends BaseProgram {
           async () => await this.serviceContainer.logout(),
         );
         const response = await command.run();
+        this.processResponse(response);
+      });
+
+    this.cli
+      .command("register <url>")
+      .description(
+        this.serviceContainer.i18nService.t(
+          "bwadminFinishAccountRegistrationFromAFinishSignupEmailLink",
+        ),
+      )
+      .option(
+        "--password <password>",
+        this.serviceContainer.i18nService.t("bwadminUseTheGivenInitialPasswordWithoutPrompting"),
+      )
+      .option(
+        "--generate",
+        this.serviceContainer.i18nService.t("bwadminGenerateARandomInitialPasswordAndPrintItOnce"),
+      )
+      .action(async (url: string, options: OptionValues) => {
+        const command = new RegisterCommand(
+          this.serviceContainer.apiService,
+          this.serviceContainer.legacyCompatKeyService,
+          this.serviceContainer.masterPasswordService,
+          this.serviceContainer.passwordPreloginService,
+          this.serviceContainer.userVerificationService,
+          this.serviceContainer.logService,
+          this.serviceContainer.accountService,
+          this.serviceContainer.environmentService,
+          this.serviceContainer.passwordGenerationService,
+          this.serviceContainer.i18nService,
+        );
+        const response = await command.run(url, options);
         this.processResponse(response);
       });
 

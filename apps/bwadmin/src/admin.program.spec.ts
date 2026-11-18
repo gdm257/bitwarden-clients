@@ -290,8 +290,18 @@ describe("AdminProgram", () => {
         "kdf",
         "domains",
         "otp",
+        "register",
       ]),
     );
+  });
+
+  describe("register", () => {
+    it("rejects a non finish-signup link without contacting the API", async () => {
+      await cli.parseAsync(["node", "bwadmin", "register", "https://vw.example.com/#/vault"]);
+
+      expect(serviceContainer.apiService.send).not.toHaveBeenCalled();
+      expect(stderr).toContain("not a finish-signup link");
+    });
   });
 
   /** Fake SDK user client whose user_crypto_management calls are jest mocks. */

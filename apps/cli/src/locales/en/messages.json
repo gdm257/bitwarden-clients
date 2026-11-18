@@ -822,6 +822,54 @@
   "bwadminMemberSOfAnOrganization1": {
     "message": "$1$ member(s) of an organization."
   },
+  "bwadminAccountCreatedFor1": {
+    "message": "Account created for $1$."
+  },
+  "bwadminRegisterLinkIsNotAFinishSignupLink": {
+    "message": "The URL is not a finish-signup link."
+  },
+  "bwadminRegisterLinkMissingEmail": {
+    "message": "The finish-signup link is missing a valid email parameter."
+  },
+  "bwadminRegisterLinkMissingToken": {
+    "message": "The finish-signup link is missing the token parameter."
+  },
+  "bwadminRegisterMasterPasswordsDoNotMatch": {
+    "message": "Master passwords do not match. Try again."
+  },
+  "bwadminRegisterMasterPasswordPrompt": {
+    "message": "Master password:"
+  },
+  "bwadminRegisterRetypeMasterPasswordPrompt": {
+    "message": "Re-type master password:"
+  },
+  "bwadminRegisterMasterPasswordNotEmpty": {
+    "message": "Master password cannot be empty. Try again."
+  },
+  "bwadminRegisterMasterPasswordIsRequired": {
+    "message": "Master password is required."
+  },
+  "bwadminRegisterNextStep": {
+    "message": "Next: run `bwadmin confirm` to complete member onboarding (invite → register → confirm)."
+  },
+  "bwadminPasswordAndGenerateAreMutuallyExclusive": {
+    "message": "The --password and --generate options are mutually exclusive."
+  },
+  "bwadminUseTheGivenInitialPasswordWithoutPrompting": {
+    "message": "Use the given initial password without prompting"
+  },
+  "bwadminGenerateARandomInitialPasswordAndPrintItOnce": {
+    "message": "Generate a random initial password and print it once on success"
+  },
+  "bwadminInitialPassword1": {
+    "message": "Initial password: $1$"
+  },
+  "bwadminChangePasswordAfterFirstLogin": {
+    "message": "Please have the user change their password after first login."
+  },
+  "bwadminFinishAccountRegistrationFromAFinishSignupEmailLink": {
+    "message": "Finish account registration from a finish-signup email link, e.g. `https://vault.example.com/#/finish-signup/?email=…&token=…`. Prompts for the master password interactively, or set an initial one with `--password <pwd>` / `--generate` (hand it over and have the member change it after first login). Member onboarding: `bwadmin invite` → `bwadmin register <link>` → `bwadmin confirm`."
+  },
   "bwadminOwnerAdminUserCustomInviteOnlyDefaultUser": {
     "message": "owner/admin/user/custom (invite only, default user)."
   },
