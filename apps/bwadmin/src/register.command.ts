@@ -14,7 +14,10 @@ import { UserVerificationService } from "@bitwarden/common/auth/services/user-ve
 import { InternalMasterPasswordServiceAbstraction } from "@bitwarden/common/key-management/master-password/abstractions/master-password.service.abstraction";
 import { KeysRequest } from "@bitwarden/common/models/request/keys.request";
 import { ErrorResponse } from "@bitwarden/common/models/response/error.response";
-import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
+import {
+  EnvironmentService,
+  Region,
+} from "@bitwarden/common/platform/abstractions/environment.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { LogService } from "@bitwarden/common/platform/abstractions/log.service";
 import {
@@ -59,7 +62,7 @@ export class RegisterCommand {
     userVerificationService: UserVerificationService,
     logService: LogService,
     accountService: AccountService,
-    environmentService: EnvironmentService,
+    private environmentService: EnvironmentService,
     private passwordGenerationService: PasswordGenerationServiceAbstraction,
     private i18nService: I18nService,
   ) {
@@ -83,6 +86,11 @@ export class RegisterCommand {
     if (typeof link === "string") {
       return Response.badRequest(link);
     }
+
+    // The finish-signup link names the server; every API call must target it, not the default region.
+    await this.environmentService.setEnvironment(Region.SelfHosted, {
+      base: new URL(url).origin,
+    });
 
     let password: string;
     if (options.password != null) {

@@ -162,6 +162,14 @@ describe("RegisterCommand", () => {
     );
   });
 
+  it("targets the API at the finish-signup link's server", async () => {
+    await command.run(FINISH_SIGNUP_URL, { password: "ProvidedPassword1!" });
+
+    expect(environmentService.setEnvironment).toHaveBeenCalledWith("Self-hosted", {
+      base: "https://vw.example.com",
+    });
+  });
+
   it("registers with --password without prompting", async () => {
     const response = await command.run(FINISH_SIGNUP_URL, { password: "ProvidedPassword1!" });
 
