@@ -799,31 +799,76 @@
     "message": "The following memberships could not be trusted automatically. Verify their "
   },
   "bwadminContinuationToken1": {
-    "message": "Continuation token: $1$"
+    "message": "Continuation token: $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminUnknownEventsObject1": {
-    "message": "Unknown events object: $1$"
+    "message": "Unknown events object: $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminMasterPasswordChangeFailed1": {
-    "message": "Master password change failed. $1$"
+    "message": "Master password change failed. $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminUnknown1": {
-    "message": "Unknown ($1$)"
+    "message": "Unknown ($1$)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminUnknownRole1": {
-    "message": "Unknown role '$1$'."
+    "message": "Unknown role '$1$'.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminEmergencyAccess1": {
-    "message": "emergency access: $1$"
+    "message": "emergency access: $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminOrganization1": {
-    "message": "organization: $1$"
+    "message": "organization: $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminMemberSOfAnOrganization1": {
-    "message": "$1$ member(s) of an organization."
+    "message": "$1$ member(s) of an organization.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminAccountCreatedFor1": {
-    "message": "Account created for $1$."
+    "message": "Account created for $1$.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminRegisterLinkIsNotAFinishSignupLink": {
     "message": "The URL is not a finish-signup link."
@@ -862,7 +907,12 @@
     "message": "Generate a random initial password and print it once on success"
   },
   "bwadminInitialPassword1": {
-    "message": "Initial password: $1$"
+    "message": "Initial password: $1$",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminChangePasswordAfterFirstLogin": {
     "message": "Please have the user change their password after first login."
@@ -874,27 +924,62 @@
     "message": "owner/admin/user/custom (invite only, default user)."
   },
   "bwadminIsNotAGuid1": {
-    "message": "`$1$` is not a GUID."
+    "message": "`$1$` is not a GUID.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminOtpauthUri": {
     "message": "otpauth URI: "
   },
   "bwadminCreatedCollection1": {
-    "message": "Created collection $1$."
+    "message": "Created collection $1$.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminUpdatedAccessFor1Collections": {
-    "message": "Updated access for $1$ collections."
+    "message": "Updated access for $1$ collections.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminDeleted1Collections": {
-    "message": "Deleted $1$ collections."
+    "message": "Deleted $1$ collections.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminEnabledPolicy1": {
-    "message": "Enabled policy $1$."
+    "message": "Enabled policy $1$.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminDisabledPolicy1": {
-    "message": "Disabled policy $1$."
+    "message": "Disabled policy $1$.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   },
   "bwadminUpdatedPolicy1": {
-    "message": "Updated policy $1$."
+    "message": "Updated policy $1$.",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
   }
 }
