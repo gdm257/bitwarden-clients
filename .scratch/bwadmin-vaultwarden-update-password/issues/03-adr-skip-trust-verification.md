@@ -6,6 +6,10 @@
 
 **Status:** ready-for-agent
 
-- [ ] ADR 覆盖三要素：难逆、无上下文会意外、真实权衡
-- [ ] 与 01/02 实际落地行为一致（在 01/02 完成后撰写）
-- [ ] GLOSSARY 更新（若有）遵循既有格式，仅术语不含实现细节
+- [x] ADR 覆盖三要素：难逆、无上下文会意外、真实权衡
+- [x] 与 01/02 实际落地行为一致（在 01/02 完成后撰写）
+- [x] GLOSSARY 更新（若有）遵循既有格式，仅术语不含实现细节
+
+## Comments
+
+- docs/adr/0001-bwadmin-skip-trust-verification-on-unsupported-servers.md 与 GLOSSARY.md Trust Verification 术语已落地，与 01/02 实际行为一致。

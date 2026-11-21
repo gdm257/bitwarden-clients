@@ -23,3 +23,8 @@ _Avoid_: verification token, invite token
 指向 web vault `#/finish-signup/` 的链接，query 携带 `email` 与 `token`。
 CLI 从中解析这两个参数完成 Registration Finish；链接中的 `email` MUST 与发起注册的邮箱一致。
 _Avoid_: signup URL, invitation link
+
+**Trust Verification**：
+user key rotation（改密或密钥升级）前核对未信任的组织与紧急联系人公钥指纹的步骤；数据来自服务器的 key-rotation data 端点。
+服务器不支持该端点时，bwadmin 跳过校验并给出 warning（ADR-0001）。
+_Avoid_: trust check, key rotation check

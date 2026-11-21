@@ -6,7 +6,11 @@
 
 **Status:** ready-for-agent
 
-- [ ] 无参数 + 交互模式 → CLI 询问两个密码并完成改密调用
-- [ ] 无参数 + `BW_NOINTERACTION=true` → 现有必需参数错误，退出码不变
-- [ ] 带参数运行时行为与之前完全一致（不出现询问）
-- [ ] 密码输入不回显
+- [x] 无参数 + 交互模式 → CLI 询问两个密码并完成改密调用
+- [x] 无参数 + `BW_NOINTERACTION=true` → 现有必需参数错误，退出码不变
+- [x] 带参数运行时行为与之前完全一致（不出现询问）
+- [x] 密码输入不回显
+
+## Comments
+
+- 实现于 20e7dffbe4：无参数 + 交互模式时经 inquirer（type password，输出到 stderr）依次询问两个密码；BW_NOINTERACTION=true 保持原必需参数错误。新增 i18n key bwadminCurrentPasswordPrompt / bwadminNewPasswordPrompt。
