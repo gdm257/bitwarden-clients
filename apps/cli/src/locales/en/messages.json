@@ -567,6 +567,12 @@
   "bwadminCurrentAndNewPasswordsAreRequired": {
     "message": "Current and new passwords are required."
   },
+  "bwadminCurrentPasswordPrompt": {
+    "message": "Current password:"
+  },
+  "bwadminNewPasswordPrompt": {
+    "message": "New password:"
+  },
   "bwadminMasterPasswordHint": {
     "message": "Master password hint."
   },

@@ -1,5 +1,6 @@
 import * as chalk from "chalk";
 import { program, Command, OptionValues } from "commander";
+import inquirer from "inquirer";
 import { firstValueFrom } from "rxjs";
 
 import {
@@ -41,8 +42,8 @@ import { ListResponse as EventListResponse } from "@bitwarden/common/models/resp
 import { Utils } from "@bitwarden/common/platform/misc/utils";
 // eslint-disable-next-line no-restricted-imports
 import { Argon2KdfConfig, KdfConfig, KdfType, PBKDF2KdfConfig } from "@bitwarden/legacy-crypto";
-import { UserKeyRotationService } from "@bitwarden/user-crypto-management";
 
+import { BwadminUserKeyRotationService } from "./account-security/bwadmin-user-key-rotation.service";
 import { CliUserCryptoDialogService } from "./account-security/cli-user-crypto-dialog.service";
 import { GroupCommand } from "./commands/group.command";
 import { MemberWriteCommand, MemberWriteResult } from "./member-write.command";
@@ -384,16 +385,39 @@ export class AdminProgram extends BaseProgram {
         const userId = await this.exitIfNotAuthed();
 
         if (currentPassword == null || newPassword == null) {
-          this.processResponse(
-            Response.error(
-              this.serviceContainer.i18nService.t("bwadminCurrentAndNewPasswordsAreRequired"),
-            ),
-          );
-          return;
+          if (process.env.BW_NOINTERACTION !== "true") {
+            const prompt = inquirer.createPromptModule({ output: process.stderr });
+            if (currentPassword == null) {
+              currentPassword = (
+                await prompt<{ currentPassword: string }>({
+                  type: "password",
+                  name: "currentPassword",
+                  message: this.serviceContainer.i18nService.t("bwadminCurrentPasswordPrompt"),
+                })
+              ).currentPassword;
+            }
+            if (newPassword == null) {
+              newPassword = (
+                await prompt<{ newPassword: string }>({
+                  type: "password",
+                  name: "newPassword",
+                  message: this.serviceContainer.i18nService.t("bwadminNewPasswordPrompt"),
+                })
+              ).newPassword;
+            }
+          }
+          if (currentPassword == null || newPassword == null) {
+            this.processResponse(
+              Response.error(
+                this.serviceContainer.i18nService.t("bwadminCurrentAndNewPasswordsAreRequired"),
+              ),
+            );
+            return;
+          }
         }
 
         // Reuses the SDK key-rotation path for vault re-encryption; no local crypto.
-        const rotationService = new UserKeyRotationService(
+        const rotationService = new BwadminUserKeyRotationService(
           this.serviceContainer.sdkService,
           this.serviceContainer.logService,
           new CliUserCryptoDialogService(this.serviceContainer.i18nService),

@@ -27,6 +27,16 @@ jest.mock("@bitwarden/cli/service-container/service-container", () => ({
   ServiceContainer: class {},
 }));
 
+const promptQuestions: { name: string; type?: string; message: string }[] = [];
+const promptAnswers: Record<string, string> = {};
+jest.mock("inquirer", () => {
+  const createPromptModule = () => (question: { name: string; message: string }) => {
+    promptQuestions.push(question);
+    return Promise.resolve({ [question.name]: promptAnswers[question.name] });
+  };
+  return { __esModule: true, default: { createPromptModule }, createPromptModule };
+});
+
 const TEST_USER_ID = "test-user-id" as UserId;
 const MOCK_SESSION_KEY = new Uint8Array(64) as CsprngArray;
 const B64_SESSION_KEY = Utils.fromBufferToB64(MOCK_SESSION_KEY);
@@ -371,6 +381,81 @@ describe("AdminProgram", () => {
       ]);
 
       expect(stderr).toContain("Master password change failed");
+    });
+
+    it("skips trust verification with a warning when the server rejects the key-rotation data request", async () => {
+      const passwordChange = jest.fn().mockResolvedValue(undefined);
+      serviceContainer.sdkService.userClient$.mockReturnValue(
+        of(
+          fakeSdkClient({
+            password_change_and_rotate_user_keys: passwordChange,
+            get_untrusted_memberships: jest
+              .fn()
+              .mockRejectedValue(new Error("API error during key rotation")),
+          }) as any,
+        ),
+      );
+
+      await cli.parseAsync([
+        "node",
+        "bwadmin",
+        "update-password",
+        "oldPassword123",
+        "newPassword456",
+      ]);
+
+      expect(passwordChange).toHaveBeenCalledWith(
+        expect.objectContaining({ old_password: "oldPassword123", password: "newPassword456" }),
+      );
+      expect(stdout).toContain("Master password changed");
+      expect(stderr).toContain("Warning");
+    });
+
+    it("prompts for both passwords when run without arguments in interactive mode", async () => {
+      process.env.BW_NOINTERACTION = "false";
+      promptQuestions.length = 0;
+      promptAnswers.currentPassword = "oldPassword123";
+      promptAnswers.newPassword = "newPassword456";
+      const passwordChange = jest.fn().mockResolvedValue(undefined);
+      serviceContainer.sdkService.userClient$.mockReturnValue(
+        of(
+          fakeSdkClient({
+            password_change_and_rotate_user_keys: passwordChange,
+            get_untrusted_memberships: jest.fn().mockResolvedValue({
+              emergency_access_memberships: [],
+              organization_memberships: [],
+            }),
+          }) as any,
+        ),
+      );
+
+      await cli.parseAsync(["node", "bwadmin", "update-password"]);
+
+      expect(promptQuestions.map((q) => q.name)).toEqual(["currentPassword", "newPassword"]);
+      expect(passwordChange).toHaveBeenCalledWith(
+        expect.objectContaining({ old_password: "oldPassword123", password: "newPassword456" }),
+      );
+      expect(stdout).toContain("Master password changed");
+    });
+
+    it("still requires both passwords in non-interactive mode", async () => {
+      const passwordChange = jest.fn().mockResolvedValue(undefined);
+      serviceContainer.sdkService.userClient$.mockReturnValue(
+        of(
+          fakeSdkClient({
+            password_change_and_rotate_user_keys: passwordChange,
+            get_untrusted_memberships: jest.fn().mockResolvedValue({
+              emergency_access_memberships: [],
+              organization_memberships: [],
+            }),
+          }) as any,
+        ),
+      );
+
+      await cli.parseAsync(["node", "bwadmin", "update-password"]);
+
+      expect(stderr).toContain("Current and new passwords are required");
+      expect(passwordChange).not.toHaveBeenCalled();
     });
   });
 
