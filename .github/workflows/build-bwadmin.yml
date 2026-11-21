@@ -118,6 +118,7 @@ jobs:
 
       - name: Get Package Version
         id: version
+        working-directory: ./
         run: |
           VERSION="${GITHUB_REF_NAME#bwadmin-v}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
