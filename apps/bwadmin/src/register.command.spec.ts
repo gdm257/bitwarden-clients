@@ -12,7 +12,10 @@ import {
 import { UserVerificationService } from "@bitwarden/common/auth/services/user-verification/user-verification.service";
 import { InternalMasterPasswordServiceAbstraction } from "@bitwarden/common/key-management/master-password/abstractions/master-password.service.abstraction";
 import { ErrorResponse } from "@bitwarden/common/models/response/error.response";
-import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
+import {
+  EnvironmentService,
+  Region,
+} from "@bitwarden/common/platform/abstractions/environment.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { LogService } from "@bitwarden/common/platform/abstractions/log.service";
 import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legacy";
@@ -46,6 +49,8 @@ const promptCount = () => (inquirer as any).__promptCount() as number;
 
 const FINISH_SIGNUP_URL =
   "https://vw.example.com/#/finish-signup/?email=user%40example.com&token=email-token&fromEmail=true";
+const UNENCODED_FINISH_SIGNUP_URL =
+  "https://vw.example.com/#/finish-signup/?email=user@example.com&token=email-token";
 
 describe("RegisterCommand", () => {
   let apiService: MockProxy<ApiService>;
@@ -60,6 +65,13 @@ describe("RegisterCommand", () => {
   let i18nService: MockProxy<I18nService>;
   let command: RegisterCommand;
   let stderr: string;
+
+  const stubEnvironment = (environment: any) => {
+    Object.defineProperty(environmentService, "environment$", {
+      value: of({ hasBaseUrl: () => true, ...environment }),
+      configurable: true,
+    });
+  };
 
   const KDF_CONFIG = new PBKDF2KdfConfig(650000);
   const AUTH_DATA = { authenticationHash: "auth-hash" } as any;
@@ -241,6 +253,26 @@ describe("RegisterCommand", () => {
     expect(apiService.send).not.toHaveBeenCalled();
   });
 
+  it("finishes the registration from a link whose email is not percent-encoded", async () => {
+    const response = await command.run(UNENCODED_FINISH_SIGNUP_URL, {
+      password: "ProvidedPassword1!",
+    });
+
+    expect(response.success).toBe(true);
+    expect(apiService.send).toHaveBeenCalledTimes(1);
+    expect(apiService.send).toHaveBeenCalledWith(
+      "POST",
+      "/accounts/register/finish",
+      expect.objectContaining({
+        email: "user@example.com",
+        emailVerificationToken: "email-token",
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+  });
+
   it("falls back to the default KDF config when prelogin returns 404 for an unregistered email", async () => {
     passwordPreloginService.getPreloginData$.mockReturnValue(
       throwError(() => new ErrorResponse("Not found", 404)),
@@ -294,5 +326,230 @@ describe("RegisterCommand", () => {
       expect.anything(),
       "user@example.com",
     );
+  });
+
+  it("starts registration from an email and finishes directly when the server returns a token", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    apiService.send.mockImplementation((async (_method: string, path: string) => {
+      if (path === "/accounts/register/send-verification-email") {
+        return "start-token";
+      }
+      return undefined;
+    }) as any);
+
+    const response = await command.run("user@example.com", {
+      password: "ProvidedPassword1!",
+      name: "Alice",
+    });
+
+    expect(response.success).toBe(true);
+    expect((response.data as MessageResponse).title).toContain("user@example.com");
+    expect(promptCount()).toBe(0);
+    expect(apiService.send).toHaveBeenNthCalledWith(
+      1,
+      "POST",
+      "/accounts/register/send-verification-email",
+      expect.objectContaining({
+        email: "user@example.com",
+        name: "Alice",
+        receiveMarketingEmails: false,
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+    expect(apiService.send).toHaveBeenNthCalledWith(
+      2,
+      "POST",
+      "/accounts/register/finish",
+      expect.objectContaining({
+        email: "user@example.com",
+        emailVerificationToken: "start-token",
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+  });
+
+  it("finishes registration from a pasted finish-signup link when the server requires email verification", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    setAnswers([FINISH_SIGNUP_URL]);
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(true);
+    expect((response.data as MessageResponse).title).toContain("user@example.com");
+    expect(promptCount()).toBe(1);
+    expect(apiService.send).toHaveBeenNthCalledWith(
+      2,
+      "POST",
+      "/accounts/register/finish",
+      expect.objectContaining({
+        email: "user@example.com",
+        emailVerificationToken: "email-token",
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+  });
+
+  it("prompts for a pasted link when the start response is an empty token", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      hasBaseUrl: () => true,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    apiService.send.mockImplementation((async (_method: string, path: string) => {
+      if (path === "/accounts/register/send-verification-email") {
+        return "";
+      }
+      return undefined;
+    }) as any);
+    setAnswers([FINISH_SIGNUP_URL]);
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(true);
+    expect(promptCount()).toBe(1);
+    expect(apiService.send).toHaveBeenNthCalledWith(
+      2,
+      "POST",
+      "/accounts/register/finish",
+      expect.objectContaining({
+        email: "user@example.com",
+        emailVerificationToken: "email-token",
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+  });
+
+  it("finishes registration from a pasted bare token", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    setAnswers(["bare-email-token"]);
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(true);
+    expect(apiService.send).toHaveBeenNthCalledWith(
+      2,
+      "POST",
+      "/accounts/register/finish",
+      expect.objectContaining({
+        email: "user@example.com",
+        emailVerificationToken: "bare-email-token",
+      }),
+      false,
+      true,
+      "https://vw.example.com/identity",
+    );
+  });
+
+  it("rejects a pasted link for a different email before finishing", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    setAnswers([
+      "https://vw.example.com/#/finish-signup/?email=other%40example.com&token=email-token",
+    ]);
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("different email address");
+    expect(promptCount()).toBe(1);
+    expect(apiService.send).toHaveBeenCalledTimes(1);
+  });
+
+  it("rejects an empty pasted input before finishing", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    setAnswers(["   "]);
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("cannot be empty");
+    expect(promptCount()).toBe(1);
+    expect(apiService.send).toHaveBeenCalledTimes(1);
+  });
+
+  it("errors out without prompting when interaction is disabled and email verification is required", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    process.env.BW_NOINTERACTION = "true";
+    setAnswers([FINISH_SIGNUP_URL]);
+
+    const response = await command.run("user@example.com");
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("interactive terminal");
+    expect(promptCount()).toBe(0);
+    expect(apiService.send).toHaveBeenCalledTimes(1);
+  });
+
+  it("refuses to start registration against a cloud environment before any request", async () => {
+    stubEnvironment({ getRegion: () => Region.US, isCloud: () => true });
+
+    const response = await command.run("user@example.com");
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("self-hosted");
+    expect(apiService.send).not.toHaveBeenCalled();
+    expect(promptCount()).toBe(0);
+  });
+
+  it("refuses to start registration when the self-hosted environment has no base url", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      hasBaseUrl: () => false,
+    });
+
+    const response = await command.run("user@example.com");
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("self-hosted");
+    expect(apiService.send).not.toHaveBeenCalled();
+    expect(promptCount()).toBe(0);
+  });
+
+  it("surfaces the server error when starting registration fails", async () => {
+    stubEnvironment({
+      getRegion: () => Region.SelfHosted,
+      isCloud: () => false,
+      getIdentityUrl: () => "https://vw.example.com/identity",
+    });
+    apiService.send.mockRejectedValue(new ErrorResponse("Email already exists", 400));
+
+    const response = await command.run("user@example.com", { password: "ProvidedPassword1!" });
+
+    expect(response.success).toBe(false);
+    expect(response.message).toContain("Email already exists");
+    expect(apiService.send).toHaveBeenCalledTimes(1);
   });
 });

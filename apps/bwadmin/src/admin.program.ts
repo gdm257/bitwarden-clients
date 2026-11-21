@@ -211,7 +211,7 @@ export class AdminProgram extends BaseProgram {
       });
 
     this.cli
-      .command("register <url>")
+      .command("register <email-or-url>")
       .description(
         this.serviceContainer.i18nService.t(
           "bwadminFinishAccountRegistrationFromAFinishSignupEmailLink",
@@ -225,7 +225,8 @@ export class AdminProgram extends BaseProgram {
         "--generate",
         this.serviceContainer.i18nService.t("bwadminGenerateARandomInitialPasswordAndPrintItOnce"),
       )
-      .action(async (url: string, options: OptionValues) => {
+      .option("--name <name>", this.serviceContainer.i18nService.t("bwadminOptionalAccountName"))
+      .action(async (target: string, options: OptionValues) => {
         const command = new RegisterCommand(
           this.serviceContainer.apiService,
           this.serviceContainer.legacyCompatKeyService,
@@ -238,7 +239,7 @@ export class AdminProgram extends BaseProgram {
           this.serviceContainer.passwordGenerationService,
           this.serviceContainer.i18nService,
         );
-        const response = await command.run(url, options);
+        const response = await command.run(target, options);
         this.processResponse(response);
       });
 

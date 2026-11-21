@@ -8,6 +8,7 @@ import { AccountApiService } from "@bitwarden/common/auth/abstractions/account-a
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import type { InternalAccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import { RegisterFinishRequest } from "@bitwarden/common/auth/models/request/registration/register-finish.request";
+import { RegisterSendVerificationEmailRequest } from "@bitwarden/common/auth/models/request/registration/register-send-verification-email.request";
 import { PasswordPreloginService } from "@bitwarden/common/auth/password-prelogin";
 import { AccountApiServiceImplementation } from "@bitwarden/common/auth/services/account-api.service";
 import { UserVerificationService } from "@bitwarden/common/auth/services/user-verification/user-verification.service";
@@ -35,6 +36,7 @@ interface FinishSignupLink {
 export interface RegisterOptions {
   password?: string;
   generate?: boolean;
+  name?: string;
 }
 
 const GENERATED_PASSWORD_OPTIONS: PasswordGeneratorOptions = {
@@ -75,23 +77,95 @@ export class RegisterCommand {
     );
   }
 
-  async run(url: string, options: RegisterOptions = {}): Promise<Response> {
+  async run(target: string, options: RegisterOptions = {}): Promise<Response> {
     if (options.password != null && options.generate) {
       return Response.badRequest(
         this.i18nService.t("bwadminPasswordAndGenerateAreMutuallyExclusive"),
       );
     }
 
-    const link = this.parseFinishSignupLink(url);
+    if (target.includes("@") && !this.isLinkLike(target)) {
+      return await this.startRegistration(target, options);
+    }
+
+    const link = this.parseFinishSignupLink(target);
     if (typeof link === "string") {
       return Response.badRequest(link);
     }
 
     // The finish-signup link names the server; every API call must target it, not the default region.
     await this.environmentService.setEnvironment(Region.SelfHosted, {
-      base: new URL(url).origin,
+      base: new URL(target).origin,
     });
 
+    return await this.finishRegistration(link.email, link.token, options);
+  }
+
+  private isLinkLike(input: string): boolean {
+    return /^[a-z][a-z0-9+.-]*:\/\//i.test(input) || input.includes("/finish-signup");
+  }
+
+  private async startRegistration(email: string, options: RegisterOptions): Promise<Response> {
+    const environment = await firstValueFrom(this.environmentService.environment$);
+    if (environment.isCloud() || !environment.hasBaseUrl()) {
+      return Response.badRequest(this.i18nService.t("bwadminRegisterRequiresSelfHostedServer"));
+    }
+
+    try {
+      const token = await this.accountApiService.registerSendVerificationEmail(
+        new RegisterSendVerificationEmailRequest(email, options.name ?? null, false),
+      );
+      if (token == null || token === "") {
+        return await this.finishFromPastedInput(email, options);
+      }
+      return await this.finishRegistration(email, token, options);
+    } catch (e) {
+      return Response.error(e);
+    }
+  }
+
+  private async finishFromPastedInput(email: string, options: RegisterOptions): Promise<Response> {
+    if (process.env.BW_NOINTERACTION === "true") {
+      return Response.badRequest(
+        this.i18nService.t("bwadminRegisterEmailVerificationRequiredInInteractiveTerminal"),
+      );
+    }
+
+    const prompt = inquirer.createPromptModule({ output: process.stderr });
+    const answer = await prompt<{ link: string }>({
+      type: "input",
+      name: "link",
+      message: this.i18nService.t("bwadminRegisterEmailVerificationRequired1", email),
+    });
+    const input = (answer.link ?? "").trim();
+    if (input === "") {
+      return Response.badRequest(this.i18nService.t("bwadminRegisterPastedInputIsEmpty"));
+    }
+
+    let token: string;
+    if (this.isLinkLike(input)) {
+      const link = this.parseFinishSignupLink(input, email);
+      if (typeof link === "string") {
+        return Response.badRequest(link);
+      }
+      if (link.email.toLowerCase() !== email.toLowerCase()) {
+        return Response.badRequest(
+          this.i18nService.t("bwadminRegisterPastedEmailDoesNotMatch1", link.email),
+        );
+      }
+      token = link.token;
+    } else {
+      token = input;
+    }
+
+    return await this.finishRegistration(email, token, options);
+  }
+
+  private async finishRegistration(
+    email: string,
+    token: string,
+    options: RegisterOptions,
+  ): Promise<Response> {
     let password: string;
     if (options.password != null) {
       password = options.password;
@@ -106,8 +180,8 @@ export class RegisterCommand {
     }
 
     try {
-      const kdfConfig = await this.preloginKdfConfig(link.email);
-      const salt = this.masterPasswordService.emailToSalt(link.email);
+      const kdfConfig = await this.preloginKdfConfig(email);
+      const salt = this.masterPasswordService.emailToSalt(email);
       const masterKey = await this.legacyCompatKeyService.makeMasterKey(password, salt, kdfConfig);
       const [userKey, encUserKey] = await this.legacyCompatKeyService.makeUserKey(masterKey);
       if (userKey == null || encUserKey == null) {
@@ -116,7 +190,7 @@ export class RegisterCommand {
       const [publicKey, encPrivateKey] = await this.legacyCompatKeyService.makeKeyPair(userKey);
 
       const request = new RegisterFinishRequest(
-        link.email,
+        email,
         null,
         new KeysRequest(publicKey, encPrivateKey.encryptedString),
         await this.masterPasswordService.makeMasterPasswordAuthenticationData(
@@ -130,14 +204,14 @@ export class RegisterCommand {
           salt,
           userKey,
         ),
-        link.token,
+        token,
       );
       await this.accountApiService.registerFinish(request);
 
       const nextStep = this.i18nService.t("bwadminRegisterNextStep");
       return Response.success(
         new MessageResponse(
-          this.i18nService.t("bwadminAccountCreatedFor1", link.email),
+          this.i18nService.t("bwadminAccountCreatedFor1", email),
           options.generate
             ? [
                 this.i18nService.t("bwadminInitialPassword1", password),
@@ -154,7 +228,7 @@ export class RegisterCommand {
   }
 
   // Returns an error message instead of a link when the URL cannot be used.
-  private parseFinishSignupLink(url: string): FinishSignupLink | string {
+  private parseFinishSignupLink(url: string, fallbackEmail?: string): FinishSignupLink | string {
     let parsed: URL;
     try {
       parsed = new URL(url);
@@ -169,7 +243,7 @@ export class RegisterCommand {
     }
     const query = new URLSearchParams(hash.slice(queryStart + 1));
 
-    const email = query.get("email");
+    const email = query.get("email") ?? fallbackEmail;
     if (email == null || email.indexOf("@") === -1) {
       return this.i18nService.t("bwadminRegisterLinkMissingEmail");
     }

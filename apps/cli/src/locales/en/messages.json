@@ -897,6 +897,34 @@
   "bwadminRegisterNextStep": {
     "message": "Next: run `bwadmin confirm` to complete member onboarding (invite → register → confirm)."
   },
+  "bwadminRegisterRequiresSelfHostedServer": {
+    "message": "Registration requires a self-hosted server. Configure one with `bwadmin config server <url>` first."
+  },
+  "bwadminRegisterEmailVerificationRequired1": {
+    "message": "A verification email was sent to $1$. Paste the finish-signup link or token from the email:",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "bwadminRegisterEmailVerificationRequiredInInteractiveTerminal": {
+    "message": "Email verification is required. Re-run in an interactive terminal to paste the finish-signup link or token, or run `bwadmin register <url>` with the link from the email."
+  },
+  "bwadminRegisterPastedEmailDoesNotMatch1": {
+    "message": "The pasted link is for a different email address ($1$).",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "bwadminRegisterPastedInputIsEmpty": {
+    "message": "The pasted link or token cannot be empty."
+  },
+  "bwadminOptionalAccountName": {
+    "message": "Optional account name to register with"
+  },
   "bwadminPasswordAndGenerateAreMutuallyExclusive": {
     "message": "The --password and --generate options are mutually exclusive."
   },
@@ -918,7 +946,7 @@
     "message": "Please have the user change their password after first login."
   },
   "bwadminFinishAccountRegistrationFromAFinishSignupEmailLink": {
-    "message": "Finish account registration from a finish-signup email link, e.g. `https://vault.example.com/#/finish-signup/?email=…&token=…`. Prompts for the master password interactively, or set an initial one with `--password <pwd>` / `--generate` (hand it over and have the member change it after first login). Member onboarding: `bwadmin invite` → `bwadmin register <link>` → `bwadmin confirm`."
+    "message": "Register an account on a self-hosted server: pass an email to start registration and receive a verification email, or a finish-signup link, e.g. `https://vault.example.com/#/finish-signup/?email=…&token=…`, to finish it. Prompts for the master password interactively, or set an initial one with `--password <pwd>` / `--generate` (hand it over and have the member change it after first login). Member onboarding: `bwadmin invite` → `bwadmin register <email>` → `bwadmin register <link>` → `bwadmin confirm`."
   },
   "bwadminOwnerAdminUserCustomInviteOnlyDefaultUser": {
     "message": "owner/admin/user/custom (invite only, default user)."
